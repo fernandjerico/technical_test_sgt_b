@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:technical_test_sgt_b/core/theme/app_colors.dart';
 
@@ -17,6 +18,37 @@ class _HomePageState extends State<HomePage> {
     {'label': 'Dress', 'icon': 'assets/icons/icon-dress.svg'},
     {'label': 'T-Shirts', 'icon': 'assets/icons/icon-tshirt.svg'},
     {'label': 'Jeans', 'icon': 'assets/icons/icon-pants.svg'},
+  ];
+
+  final List<Map<String, dynamic>> items = [
+    {
+      'image': 'assets/images/product-1.png',
+      'title': 'Modern Light Clothes',
+      'category': 'T-Shirt',
+      'price': 212.99,
+      'rating': 5.0,
+    },
+    {
+      'image': 'assets/images/product-2.png',
+      'title': 'Light Dress Bless',
+      'category': 'Dress',
+      'price': 162.99,
+      'rating': 5.0,
+    },
+    {
+      'image': 'assets/images/product-3.png',
+      'title': 'Light Dress Modern',
+      'category': 'Dress',
+      'price': 122.99,
+      'rating': 5.0,
+    },
+    {
+      'image': 'assets/images/product-4.png',
+      'title': 'Light Dress Yellow',
+      'category': 'Dress',
+      'price': 122.99,
+      'rating': 5.0,
+    },
   ];
   @override
   Widget build(BuildContext context) {
@@ -51,7 +83,7 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                   CircleAvatar(
-                    radius: 28,
+                    radius: 20,
                     backgroundImage: NetworkImage(
                       'https://avatars.githubusercontent.com/u/123456789?v=4',
                     ),
@@ -173,6 +205,81 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               SizedBox(height: 24),
+              Expanded(
+                child: MasonryGridView.builder(
+                  itemCount: items.length,
+                  gridDelegate:
+                      const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2),
+                  itemBuilder: (context, index) {
+                    final item = items[index];
+                    return Container(
+                      padding: EdgeInsets.only(bottom: 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(16),
+                            child: Image.asset(
+                              item['image']!,
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            item['title']!,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.grey10Color,
+                            ),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            item['category']!,
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.grey4Color,
+                            ),
+                          ),
+                          SizedBox(height: 12),
+                          Row(
+                            children: [
+                              Text(
+                                '\$${item['price']}',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.grey13Color,
+                                ),
+                              ),
+                              SizedBox(width: 24),
+                              Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/icons/icon-star.svg',
+                                    fit: BoxFit.scaleDown,
+                                  ),
+                                  SizedBox(width: 4),
+                                  Text(
+                                    item['rating'].toString(),
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                      color: AppColors.grey10Color,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              )
             ],
           ),
         ),
